@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedra, papel, tesoura</title>
+
+    <style>
+        body {
+            background-color: lightpink;
+        }
+
+        h1 {
+            margin-top: 24px;
+            margin-bottom: 24px;
+            text-shadow: 2px 2px 2px rgba(248, 126, 144, 0.616);
+        }
+
+        h1,
+        p {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        p {
+            font-size: 24px;
+        }
+
+        div {
+            margin: auto;
+            width: fit-content;
+        }
+
+        button {
+            background-color: lightpink;
+            border: none;
+            font-size: 72px;
+            cursor: pointer;
+        }
+
+        .pontuacao {
+            margin-top: 50px;
+            border: 1px solid rgb(243, 145, 160);
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.281);
+            border-radius: 4px;
+            padding: 5px 20px;
+        }
+
+        #zerarPlacar {
+            font-size: 14px;
+            display: block;
+            margin: auto;
+            margin-top: 30px;
+            border: 1px solid rgb(243, 145, 160);
+            border-radius: 3px;
+            padding: 4px 14px;
+            background-color: pink;
+        }
+
+        #resultado {
+            margin: auto;
+            margin-top: 40px;
+            font-size: 16px;
+            background-color: blanchedalmond;
+            width: fit-content;
+            padding: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pedra, Papel, Tesoura</h1>
+    <div>
+        <button onclick="jogar('pedra')">✊</button>
+        <button onclick="jogar('papel')">✋</button>
+        <button onclick="jogar('tesoura')">✌️</button>
+    </div>
+
+    <p id="resultado">***</p>
+
+    <div class="pontuacao">
+        <p>Você: <span id="pontuacaoUsuario">0</span></p>
+        <p>Computador: <span id="pontuacaoComputador">0</span></p>
+    </div>
+
+    <button id="zerarPlacar" onclick="zerarPlacar()">Zerar Placar</button>
+
+    <script>
+        let elementoResultado = document.getElementById("resultado");
+        const jogadasDisponiveis = ["pedra", "papel", "tesoura"];
+        let pontosUsuario = 0;
+        let pontosComputador = 0;
+
+        function jogar(jogadaDoUsuario) {
+            let jogadaAleatoria = Math.floor(Math.random() * 3);
+            let jogadaDoComputador = jogadasDisponiveis[jogadaAleatoria];
+
+            if (jogadaDoComputador === jogadaDoUsuario) {
+                elementoResultado.innerText = "EMPATE, o computador jogou o mesmo que você.";
+            } else if (jogadaDoComputador === "pedra") {
+                if (jogadaDoUsuario === "papel") {
+                    elementoResultado.innerText ="Você GANHOU, o computador jogou pedra."
+                    pontosUsuario++;
+                } else {
+                    elementoResultado.innerText="Você PERDEU, o computador jogou pedra.";
+                    pontosComputador++;
+                }
+            } else if (jogadaDoComputador === "papel") {
+                if (jogadaDoUsuario === "pedra") {
+                    elementoResultado.innerText="Você PERDEU, o computador jogou papel."
+                    pontosComputador++;
+                } else {
+                    elementoResultado.innerText="Você GANHOU, o computador jogou papel."
+                    pontosUsuario++;
+                }
+            } else {
+                if (jogadaDoUsuario === "pedra") {
+                    elementoResultado.innerText="Você GANHOU, o computador jogou tesoura."
+                    pontosUsuario++;
+                } else {
+                    elementoResultado.innerText="Você PERDEU, o computador jogou tesoura."
+                    pontosComputador++;
+                }
+            }
+
+            document.getElementById("pontuacaoUsuario").innerText = pontosUsuario;
+            document.getElementById("pontuacaoComputador").innerText = pontosComputador;
+        }
+
+        function zerarPlacar() {
+            pontosUsuario = 0;
+            pontosComputador = 0;
+
+            document.getElementById("pontuacaoUsuario").innerText = pontosUsuario;
+            document.getElementById("pontuacaoComputador").innerText = pontosComputador;
+            elementoResultado.innerText="***";
+        }
+    </script>
+</body>
+
+</html>

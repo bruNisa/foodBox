@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da força</title>
+    <style>
+        @font-face {
+            font-family: 'Star';
+            src: url("Starjedi.ttf");
+        }
+
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            color: #e6b93c;
+            font-family: 'Star';
+        }
+
+        .boneco {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+        }
+
+        .darth-vader {
+            width: 300px;
+        }
+
+        .cabeca {
+            background: #0e0e13;
+            width: 300px;
+            height: 120px;
+
+            position: absolute;
+            top: 0;
+        }
+
+        .braco-esquerdo {
+            background: #0e0e13;
+            width: 100px;
+            height: 160px;
+
+            position: absolute;
+            left: 0;
+        }
+
+        .torso {
+            background: #0e0e13;
+            width: 100px;
+            height: 160px;
+
+            position: absolute;
+            left: 100px;
+        }
+
+        .braco-direito {
+            background: #0e0e13;
+            width: 100px;
+            height: 160px;
+
+            position: absolute;
+            right: 0;
+        }
+
+        .perna-esquerda {
+            background: #0e0e13;
+            width: 155px;
+            height: 160px;
+
+            position: absolute;
+            left: 0;
+            top: 190px;
+        }
+
+        .perna-direita {
+            background: #0e0e13;
+            width: 155px;
+            height: 160px;
+
+            position: absolute;
+            right: 0;
+            top: 190px;
+        }
+
+        .palavra {
+            color: #e6b93c;
+            font-size: 42px;
+        }
+
+        .letra {
+            border: 2px solid #e6b93c;
+        }
+
+        .mostrar {
+            background-color: transparent;
+        }
+
+        button {
+            background-color: #4894c3;
+            color: #ffffff;
+            border: 0;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Jogo da força</h1>
+    <div class="boneco">
+        <img src="darth-vader.png" class="darth-vader" />
+        <div class="parte-do-boneco cabeca"></div>
+        <div class="parte-do-boneco braco-esquerdo"></div>
+        <div class="parte-do-boneco torso"></div>
+        <div class="parte-do-boneco braco-direito"></div>
+        <div class="parte-do-boneco perna-esquerda"></div>
+        <div class="parte-do-boneco perna-direita"></div>
+    </div>
+    <p class="palavra"></p>
+    <button onclick="chutar()">CHUTAR LETRA</button>
+    <img src="driven.png" alt="Driven" class="logo">
+
+    <script>
+        const partesDoBoneco = Array.from(document.querySelectorAll(".parte-do-boneco"));
+        const chutesEfetuados = [];
+        const palavra = "natal";
+        const qtMaximaErros = partesDoBoneco.length;
+        let qtAcertos = 0;
+        let errosCometidos = 0;
+
+        mostrarPalavra();
+
+        function mostrarPalavra() {
+            let palavraMostrada = "";
+            qtAcertos = 0;
+            for (let i = 0; i < palavra.length; i++) {
+                if (chutesEfetuados.includes(palavra[i])) {
+                    palavraMostrada += `
+                        <span class='letra'> ${palavra[i]}</span>`;
+                    qtAcertos++;
+                } else if (palavra[i] === " ") {
+                    palavraMostrada += " ";
+                    qtAcertos++;
+                } else {
+                    palavraMostrada += `
+                        <span class='letra'>_</span>`
+                }
+            }
+            document.querySelector(".palavra").innerHTML = palavraMostrada;
+            if (qtAcertos === palavra.length){
+                alert("PARABÉNS! Você ganhou.")
+            }
+        }
+
+        function chutar() {
+            if (errosCometidos === qtMaximaErros) {
+                alert("Você perdeu!")
+                return;
+            }
+            if (qtAcertos === palavra.length){
+                alert("PARABÉNS! Você ganhou.")
+                return;
+            }
+
+            const chute = prompt("Qual é o seu chute?");
+
+            if (chutesEfetuados.includes(chute)) {
+                alert("Chute já efetuado!");
+                return;
+            }
+
+            chutesEfetuados.push(chute);
+
+            if (palavra.includes(chute)) {
+                mostrarPalavra();
+            } else {
+                errosCometidos++;
+
+                for (let i = 0; i < errosCometidos; i++) {
+                    partesDoBoneco[i].classList.add("mostrar");
+                }
+
+                if (errosCometidos === qtMaximaErros) {
+                    alert("Você perdeu!");
+                } else {
+                    alert("Chute errado, tente novamente! " + chutesEfetuados);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

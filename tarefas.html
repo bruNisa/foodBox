@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+        body {
+            background: rgb(184, 22, 153);
+            background: linear-gradient(90deg, rgba(184, 22, 153, 1) 17%, rgba(0, 212, 255, 1) 100%);
+            display: flex;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .board{
+            background-color: rgba(255,255,255,0.8);
+            width: 320px;
+            height: 430px;
+            margin: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h3{
+            background-color: lightcoral;
+            color: white;
+            margin: 0px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        ul{
+            list-style-type: none;
+            min-height: 300px;
+            padding: 2px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+
+        li{
+            background-color: white;
+            box-shadow: 2px 2px rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            min-width: 100px;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 10px;
+            padding: 8px;
+            align-items: center;
+        }
+        li:hover{
+            cursor: move;
+        }
+
+        .remove{
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 12px;
+            color: #c3c3c3;
+        }
+        .remove:hover{
+            cursor: pointer;
+            background-color: lightcoral;
+        }
+
+        .add-card{
+            background-color: rgba(200, 200, 200, 0.8);
+            margin: 4px;
+            border-radius: 8px;
+        }
+        .add-card:hover{
+            cursor: pointer;
+        }
+
+        .add-card p{
+            font-size: 16px;
+            padding: 0px 6px;
+            font-weight: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="board">
+        <h3>A fazer</h3>
+        <ul id="todo" ondrop="drop(event, this.id)" ondragover="over(event)">
+            <li id="1" draggable="true" ondragstart="drag(event)">
+                <p>Dormir</p>
+                <p class="remove" onclick="removeCard(this)">x</p>
+            </li>
+            <li id="2" draggable="true" ondragstart="drag(event)">
+                <p>Sonhar</p>
+                <p class="remove" onclick="removeCard(this)">x</p>
+            </li>
+        </ul>
+        <div class="add-card" onclick="addCard(this)">
+            <p>Adicionar tarefa</p>
+        </div>
+    </div>
+    <div class="board">
+        <h3>Fazendo</h3>
+        <ul id="doing" ondrop="drop(event, this.id)" ondragover="over(event)"></ul>
+        <div class="add-card" onclick="addCard(this)">
+            <p>Adicionar tarefa</p>
+        </div>
+    </div>
+    <div class="board">
+        <h3>Entregue</h3>
+        <ul id="done" ondrop="drop(event, this.id)" ondragover="over(event)"></ul>
+        <div class="add-card" onclick="addCard(this)">
+            <p>Adicionar tarefa</p>
+        </div>
+    </div>
+
+    <script>
+        function addCard(elemento){
+            let ulId =  elemento.previousElementSibling.id
+            let text = prompt("Qual é a tarefa?");
+            let board = document.getElementById(ulId);
+            let template =  `<li id="${new Date().getTime()}"  draggable="true" ondragstart="drag(event)"> <p>${text}</p> <p class="remove" onclick="removeCard(this)">x</p> </li>`;
+            board.innerHTML += template;
+        } 
+
+        function removeCard(elemento){
+            document.getElementById(elemento.parentElement.id).remove();
+        }
+
+        function drag(event){
+            event.dataTransfer.setData("card",event.target.id);
+        }
+
+        function over(event){
+            event.preventDefault();
+        }
+
+        function drop(event, id){
+            event.preventDefault();
+            let target = document.getElementById(id);
+            let data = event.dataTransfer.getData("card");
+            let card = document.getElementById(data);
+            target.appendChild(card);
+            event.dataTransfer.clearData();
+        } 
+    </script>
+</body>
+
+</html>

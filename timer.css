@@ -1,0 +1,31 @@
+body {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    margin: 64px;
+    flex-direction: column;
+  }
+
+  .start {
+    background-color: #ff4791;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 12px;
+    font-size: 16px;
+  }
+
+  .stop {
+    background-color: #f8a0c3;
+    color: black;
+  }
+
+  buttom:hover {
+    background-color: #d47299;
+    cursor: pointer;
+  }
+
+  h1 {
+    font-size: 82px;
+    color: white;
+  }
